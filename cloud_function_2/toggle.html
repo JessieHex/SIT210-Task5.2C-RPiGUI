@@ -1,0 +1,41 @@
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/particle-api-js@8/dist/particle.min.js"></script>
+
+    <script>
+        var particle = new Particle();
+
+        const accessToken = 'accessTokenHERE';
+        const deviceId = 'deviceIdHERE';
+
+        function ledControl(cmd) {
+            // Used to turn on or off the LED by using the Particle.function "toggle"
+            document.getElementById("statusSpan").innerHTML = '';
+
+            particle.callFunction({deviceId, name:'toggle', argument: cmd, auth:accessToken}).then(
+                function(data) {
+                    document.getElementById("statusSpan").innerHTML = 'Call completed';
+                },
+                function(err) {
+                    document.getElementById("statusSpan").innerHTML = 'Error calling device: ' + err;
+                }
+            );
+        }
+    </script>
+</head>
+<body>
+    <div id="mainDiv">
+        <h3>Traffic Light Controller</h3>
+	<p><button id="red" onclick="ledControl('red')">RED</button>&nbsp;</p>
+	<p><button id="yellow" onclick="ledControl('yellow')">YELLOW</button></p>
+	<p><button id="green" onclick="ledControl('green')">GREEN</button></p>
+            <p>&nbsp;</p>
+            <p><span id="statusSpan"></span></p>
+    </div>
+</body>
+
+</html>
+
+
+
+<!--POST /v1/devices/{DEVICE_ID}/{FUNCTION} -->
